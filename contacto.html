@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - El Centollo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .contacto-section {
+            padding: 60px 20px;
+            text-align: center;
+            background: #f8f8f8;
+        }
+        .contacto-box {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            background: #f5f0e6;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .contacto-box h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .contacto-box p {
+            color: #555;
+            font-size: 1em;
+        }
+        .contacto-datos {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            max-width: 900px;
+            margin: 0 auto 50px;
+            text-align: left;
+        }
+        .contacto-col h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .contacto-col p {
+            color: #555;
+            line-height: 1.8;
+        }
+        .contacto-col a {
+            color: #4a9c5d;
+            text-decoration: none;
+        }
+        .contacto-col a:hover {
+            text-decoration: underline;
+        }
+        .qr-container {
+            display: inline-block;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .qr-container img {
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+        }
+        .qr-title {
+            font-size: 1.5em;
+            color: #000000;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .qr-subtitle {
+            font-size: 1em;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+        @media (max-width: 768px) {
+            .contacto-datos {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+        }
+    </style>
+<base target="_blank">
+
+    <style>
+        #chatbot-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999;
+        }
+        #chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #c0392b;
+            color: #fff;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(192,57,43,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+        #chatbot-window {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 350px;
+            max-height: 500px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        #chatbot-window.chatbot-hidden {
+            display: none;
+        }
+        .chatbot-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .chatbot-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #fff;
+            padding: 3px;
+        }
+        .chatbot-title h4 {
+            margin: 0;
+            color: #fff;
+            font-size: 1em;
+        }
+        .chatbot-status {
+            color: #4CAF50;
+            font-size: 0.75em;
+        }
+        .chatbot-minimize {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 250px;
+            background: #f8f8f8;
+        }
+        .chat-message {
+            margin-bottom: 12px;
+            display: flex;
+        }
+        .chat-message.bot {
+            justify-content: flex-start;
+        }
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+        .chat-bubble {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        .chat-message.bot .chat-bubble {
+            background: #fff;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .chat-message.user .chat-bubble {
+            background: #c0392b;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .chatbot-questions {
+            padding: 10px 15px 15px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .chatbot-questions button {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 18px;
+            text-align: left;
+            font-size: 0.85em;
+            color: #333;
+            cursor: pointer;
+        }
+        .chatbot-questions button:hover {
+            background: #e0e0e0;
+        }
+        @media (max-width: 480px) {
+            #chatbot-window {
+                width: calc(100vw - 40px);
+                right: -10px;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- ENCABEZADO -->
+    <header>
+        <div class="logo-container">
+            <img src="imagenes/logo.png" alt="El Centollo">
+        </div>
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="contacto.html" class="active">Contacto</a></li>
+                <li><a href="ubicacion.html">Ubicación</a></li>
+                <li><a href="reservas.html">Reservas</a></li>
+                <li><a href="creditos.html">Creditos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- CONTACTO: Caja beige + dos columnas + QR -->
+    <section class="contacto-section">
+        <div class="contacto-box">
+            <h2>Contacto</h2>
+            <p>Ante cualquier duda o sugerencia, por favor, póngase en contacto con nosotros. Estamos aquí para atenderle.</p>
+        </div>
+
+        <div class="contacto-datos">
+            <div class="contacto-col">
+                <h3>Atención al cliente</h3>
+                <p>Lunes a viernes de 8:00 a 14:30 horas.</p>
+                <p>Sábados de 8:00 a 14:00 horas.</p>
+                <p>Domingos y festivos cerrada.</p>
+            </div>
+            <div class="contacto-col">
+                <h3>Datos de contacto</h3>
+                <p><strong>Dirección:</strong> Calle de Juan Montalvo, 14, 28040 Madrid</p>
+                <p><strong>Teléfono:</strong> 91 533 15 76</p>
+                <p><strong>Fax:</strong> 91 553 77 36</p>
+                <p><strong>Email:</strong> <a href="mailto:corunesas@pescaderiascorunesas.es">corunesas@pescaderiascorunesas.es</a></p>
+            </div>
+        </div>
+
+        <!-- CÓDIGO QR -->
+        <div class="qr-container">
+            <img src="imagenes/qrcontacto.png" alt="Código QR de contacto">
+            <p class="qr-title">EL CENTOLLO</p>
+            <p class="qr-subtitle">Escanea para contactarnos</p>
+        </div>
+    </section>
+
+  <!-- PIE DE PÁGINA -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-icon-box">
+                <i class="fas fa-fish"></i>
+                <h4>MÁS DE 100 AÑOS</h4>
+                <p>Desde 1911 trabajando con el mejor producto del mar</p>
+            </div>
+            <div class="footer-icon-box">
+                <i class="fas fa-anchor"></i>
+                <h4>EL PRODUCTO MÁS FRESCO</h4>
+                <p>Pescadores y mariscos directos de la lonja</p>
+            </div>
+            <div class="footer-icon-box">
+                <i class="fas fa-smoke"></i>
+                <h4>AHUMADOS ARTESANALES</h4>
+                <p>Descubre nuestros procesos de ahumado</p>
+            </div>
+            <div class="footer-icon-box">
+                <i class="fas fa-store"></i>
+                <h4>LA TIENDA</h4>
+                <p>También te servimos en nuestra tienda física</p>
+            </div>
+            <div class="footer-icon-box">
+                <i class="fas fa-ship"></i>
+                <h4>SELECCIONAMOS POR TI</h4>
+                <p>Despreocúpate y disfruta del mejor género del mar</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-info">
+                <p><i class="fas fa-map-marker-alt"></i> Carrera 1 #93-50 Chicó Alto, Bogotá</p>
+                <p><i class="fas fa-phone"></i> Tel: (57) 316 690 0508</p>
+                <p><i class="fas fa-envelope"></i> servicioalcliente@tramonti.com.co</p>
+            </div>
+            <div class="footer-social">
+                <a href="#" class="fb"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="tw"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="wa"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="tg"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="plus"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </footer>
+
+<style>
+/* ============ FOOTER ESTILO VERDE Y NEGRO ============ */
+footer {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 50px 20px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-icon-box {
+    flex: 1;
+    min-width: 200px;
+    max-width: 260px;
+    text-align: center;
+    padding: 30px 20px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.footer-icon-box:hover {
+    transform: translateY(-8px);
+}
+
+.footer-icon-box:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 60%;
+    background: rgba(39,174,96,0.15);
+}
+
+.footer-icon-box i {
+    font-size: 2.2em;
+    color: #27ae60;
+    margin-bottom: 18px;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background: rgba(39,174,96,0.1);
+    border: 2px solid rgba(39,174,96,0.2);
+    transition: all 0.3s;
+}
+
+.footer-icon-box:hover i {
+    background: #27ae60;
+    color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(39,174,96,0.3);
+}
+
+.footer-icon-box h4 {
+    font-size: 0.85em;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.footer-icon-box p {
+    font-size: 0.85em;
+    color: #95a5a6;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(39,174,96,0.1);
+    padding: 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-info p {
+    margin: 6px 0;
+    font-size: 0.9em;
+    color: #95a5a6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-info i {
+    color: #27ae60;
+    font-size: 1em;
+    width: 20px;
+    text-align: center;
+}
+
+.footer-social {
+    display: flex;
+    gap: 10px;
+}
+
+.footer-social a {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #95a5a6;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(39,174,96,0.15);
+    font-size: 1.1em;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.footer-social a:hover {
+    transform: translateY(-3px);
+    color: #fff;
+}
+
+.footer-social a.fb:hover { background: #3b5998; border-color: #3b5998; box-shadow: 0 6px 20px rgba(59,89,152,0.3); }
+.footer-social a.tw:hover { background: #1da1f2; border-color: #1da1f2; box-shadow: 0 6px 20px rgba(29,161,242,0.3); }
+.footer-social a.wa:hover { background: #25d366; border-color: #25d366; box-shadow: 0 6px 20px rgba(37,211,102,0.3); }
+.footer-social a.tg:hover { background: #0088cc; border-color: #0088cc; box-shadow: 0 6px 20px rgba(0,136,204,0.3); }
+.footer-social a.plus:hover { background: #27ae60; border-color: #27ae60; box-shadow: 0 6px 20px rgba(39,174,96,0.3); }
+
+@media (max-width: 768px) {
+    .footer-top { padding: 30px 15px; }
+    .footer-icon-box { min-width: 150px; padding: 20px 15px; }
+    .footer-icon-box:not(:last-child)::after { display: none; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .footer-info p { justify-content: center; }
+}
+</style>
+</style>
+    </footer>
+
+    <!-- ============ CHATBOT ESTILO NUEVO LLAMATIVO Y PROFESIONAL ============ -->
+    <style>
+        /* ---- TOGGLE BUTTON ---- */
+        #chatbot-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #e74c3c;
+            color: #fff;
+            border: 3px solid #fff;
+            font-size: 1.6em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(231,76,60,0.45), 0 0 0 4px rgba(231,76,60,0.15);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 9999;
+            animation: toggle-glow 2.5s ease-in-out infinite;
+        }
+        @keyframes toggle-glow {
+            0%, 100% { box-shadow: 0 8px 30px rgba(231,76,60,0.45), 0 0 0 4px rgba(231,76,60,0.15); }
+            50% { box-shadow: 0 12px 40px rgba(231,76,60,0.6), 0 0 0 8px rgba(231,76,60,0); }
+        }
+        #chatbot-toggle:hover {
+            transform: scale(1.12) rotate(-6deg);
+            background: #c0392b;
+        }
+        #chatbot-toggle:active { transform: scale(0.92); }
+        #chatbot-toggle.hidden { transform: scale(0); opacity: 0; pointer-events: none; }
+
+        /* Badge */
+        .chatbot-badge {
+            position: fixed;
+            bottom: 78px;
+            right: 24px;
+            width: 22px;
+            height: 22px;
+            background: #f39c12;
+            color: #fff;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: badge-pulse 2s infinite;
+        }
+        @keyframes badge-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(243,156,18,0.5); }
+            50% { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(243,156,18,0); }
+        }
+
+        /* Tooltip */
+        .chatbot-tooltip {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            background: #fff;
+            color: #2c3e50;
+            padding: 16px 20px;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 270px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.04);
+            z-index: 9998;
+            animation: tooltip-float 3s ease-in-out infinite;
+        }
+        .chatbot-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 22px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-right: 1px solid rgba(0,0,0,0.04);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            transform: rotate(45deg);
+        }
+        .chatbot-tooltip strong { color: #e74c3c; font-weight: 700; }
+        .close-tooltip {
+            position: absolute;
+            top: 6px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #bdc3c7;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .close-tooltip:hover { color: #e74c3c; }
+        @keyframes tooltip-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        /* ---- CHAT WINDOW ---- */
+        #chatbot-window {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 380px;
+            max-width: calc(100vw - 48px);
+            height: 560px;
+            max-height: calc(100vh - 140px);
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9997;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #chatbot-window.chatbot-hidden {
+            opacity: 0;
+            transform: translateY(20px) scale(0.92);
+            pointer-events: none;
+        }
+        #chatbot-window.chatbot-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* ---- HEADER ---- */
+        .chatbot-header {
+            background: #1a1a2e;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+        .chatbot-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 120px;
+            height: 120px;
+            background: rgba(231,76,60,0.08);
+            border-radius: 50%;
+        }
+        .chatbot-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 3px solid #e74c3c;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .chatbot-logo::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 10px;
+            height: 10px;
+            background: #2ecc71;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            animation: status-blink 2s infinite;
+        }
+        @keyframes status-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .chatbot-title { flex: 1; min-width: 0; position: relative; z-index: 1; }
+        .chatbot-title h4 {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .chatbot-status {
+            color: #bdc3c7;
+            font-size: 11px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 2px;
+        }
+        .chatbot-minimize {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.08);
+            border: none;
+            color: #95a5a6;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 14px;
+            margin-left: auto;
+            position: relative;
+            z-index: 1;
+        }
+        .chatbot-minimize:hover {
+            background: rgba(231,76,60,0.2);
+            color: #fff;
+        }
+
+        /* ---- MESSAGES ---- */
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: #f8f9fa;
+            scrollbar-width: thin;
+            scrollbar-color: #ddd transparent;
+        }
+        .chatbot-messages::-webkit-scrollbar { width: 4px; }
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 2px;
+        }
+
+        .chat-message {
+            display: flex;
+            flex-direction: column;
+            max-width: 88%;
+            animation: msg-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes msg-in {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .chat-message.user { align-self: flex-end; }
+        .chat-message.bot { align-self: flex-start; }
+
+        .chat-bubble {
+            padding: 13px 17px;
+            border-radius: 20px;
+            font-size: 13.5px;
+            line-height: 1.7;
+            word-wrap: break-word;
+        }
+        .chat-message.user .chat-bubble {
+            background: #e74c3c;
+            color: #fff;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 3px 12px rgba(231,76,60,0.2);
+        }
+        .chat-message.bot .chat-bubble {
+            background: #fff;
+            color: #2c3e50;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border: 1px solid #ecf0f1;
+        }
+        .chat-message.bot .chat-bubble strong { color: #e74c3c; }
+        .chat-message.bot .chat-bubble b { color: #1a1a2e; }
+        .chat-time {
+            font-size: 10px;
+            color: #bdc3c7;
+            margin-top: 4px;
+            padding: 0 5px;
+            font-weight: 500;
+        }
+        .chat-message.user .chat-time { text-align: right; }
+
+        /* Typing */
+        .chat-typing {
+            display: none;
+            align-self: flex-start;
+            background: #fff;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border: 1px solid #ecf0f1;
+            margin-left: 18px;
+            animation: msg-in 0.3s ease-out;
+        }
+        .chat-typing span {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: #e74c3c;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing-bounce 1.3s ease-in-out infinite;
+        }
+        .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+        .chat-typing span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes typing-bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        /* ---- PROGRESS BAR ---- */
+        .chatbot-progress {
+            padding: 10px 20px;
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
+        }
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .progress-top span {
+            color: #888;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        .progress-bar-track {
+            height: 5px;
+            background: #e8e8e8;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: #e74c3c;
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* ---- QUESTIONS ---- */
+        .chatbot-questions {
+            padding: 14px 16px 18px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #ddd transparent;
+        }
+        .chatbot-questions::-webkit-scrollbar { width: 3px; }
+        .chatbot-questions::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 2px;
+        }
+        .chatbot-questions button {
+            padding: 10px 16px;
+            border-radius: 16px;
+            border: 1.5px solid #ecf0f1;
+            background: #fff;
+            color: #2c3e50;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: left;
+            line-height: 1.4;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+        .chatbot-questions button::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: rgba(231,76,60,0.06);
+            transition: width 0.3s;
+            z-index: 0;
+        }
+        .chatbot-questions button:hover:not(:disabled)::before {
+            width: 100%;
+        }
+        .chatbot-questions button:hover:not(:disabled) {
+            border-color: #e74c3c;
+            color: #e74c3c;
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(231,76,60,0.1);
+        }
+        .chatbot-questions button:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            border-color: #ecf0f1;
+            color: #bdc3c7;
+        }
+
+        /* ---- RESTART ---- */
+        .chatbot-restart {
+            display: none;
+            padding: 18px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+        .chatbot-restart button {
+            padding: 12px 32px;
+            border-radius: 25px;
+            border: 2px solid #e74c3c;
+            background: #fff;
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chatbot-restart button:hover {
+            background: #e74c3c;
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(231,76,60,0.3);
+            transform: translateY(-1px);
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 480px) {
+            #chatbot-window {
+                width: calc(100vw - 32px);
+                right: 16px;
+                bottom: 90px;
+                height: calc(100vh - 120px);
+                border-radius: 20px;
+            }
+            #chatbot-toggle { bottom: 16px; right: 16px; width: 58px; height: 58px; }
+            .chatbot-badge { bottom: 70px; right: 16px; }
+            .chatbot-tooltip { right: 16px; bottom: 86px; max-width: calc(100vw - 48px); }
+        }
+    </style>
+
+    
+<base target="_blank">
+</head>
+<body>
+
+    <!-- ============ CHATBOT FLOTANTE - NUEVO ESTILO LLAMATIVO ============ -->
+    <div id="chatbot-container">
+        
+        <!-- Tooltip de bienvenida -->
+        <div class="chatbot-tooltip" id="chatbotTooltip">
+            <button class="close-tooltip" onclick="closeTooltip()">&times;</button>
+            <strong>¡Hola! 👋</strong><br>
+            Soy el asistente de <strong>El Centollo</strong>. ¿Tienes preguntas? ¡Haz clic aquí!
+        </div>
+        
+        <!-- Ventana del chatbot -->
+        <div id="chatbot-window" class="chatbot-hidden">
+            
+            <!-- Header -->
+            <div class="chatbot-header">
+                <div class="chatbot-logo">🦀</div>
+                <div class="chatbot-title">
+                    <h4>El Centollo</h4>
+                    <span class="chatbot-status">Asistente virtual</span>
+                </div>
+                <button class="chatbot-minimize" onclick="toggleChatbot()">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+            
+            <!-- Messages -->
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chat-message bot">
+                    <div class="chat-bubble">
+                        <strong>¡Hola!</strong> Soy el asistente virtual de <strong>El Centollo</strong>. 🦀<br><br>
+                        Estoy aquí para resolver todas tus dudas. Selecciona una pregunta de abajo:
+                    </div>
+                    <div class="chat-time">Ahora</div>
+                </div>
+            </div>
+            
+            <!-- Typing indicator -->
+            <div class="chat-typing" id="chatTyping">
+                <span></span><span></span><span></span>
+            </div>
+            
+            <!-- Barra de progreso -->
+            <div class="chatbot-progress">
+                <div class="progress-top">
+                    <span>Progreso</span>
+                    <span id="progressText">Pregunta 0 de 10</span>
+                </div>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+            </div>
+            
+            <!-- Preguntas -->
+            <div class="chatbot-questions" id="chatbotQuestions">
+                <button onclick="askQuestion(0)">¿Cuál es el horario de atención?</button>
+                <button onclick="askQuestion(1)">¿Hacen domicilios?</button>
+                <button onclick="askQuestion(2)">¿Cuál es el plato más popular?</button>
+                <button onclick="askQuestion(3)">¿Necesito reservar con anticipación?</button>
+                <button onclick="askQuestion(4)">¿Tienen opciones vegetarianas?</button>
+                <button onclick="askQuestion(5)">¿Aceptan tarjetas de crédito?</button>
+                <button onclick="askQuestion(6)">¿Tienen estacionamiento?</button>
+                <button onclick="askQuestion(7)">¿Hacen eventos privados?</button>
+                <button onclick="askQuestion(8)">¿Cuál es el tiempo de espera promedio?</button>
+                <button onclick="askQuestion(9)">¿Tienen menú infantil?</button>
+            </div>
+            
+            <!-- Boton reiniciar -->
+            <div class="chatbot-restart" id="chatbotRestart">
+                <button onclick="restartChatbot()">
+                    <i class="fas fa-redo"></i> Iniciar nueva conversación
+                </button>
+            </div>
+        </div>
+        
+        <!-- Boton toggle -->
+        <button id="chatbot-toggle" onclick="toggleChatbot()">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chatbot-badge" id="chatbotBadge">1</div>
+    </div>
+
+    <script>
+        // ============ DATOS DEL CHATBOT ============
+        var preguntas = [
+            "¿Cuál es el horario de atención?",
+            "¿Hacen domicilios?",
+            "¿Cuál es el plato más popular?",
+            "¿Necesito reservar con anticipación?",
+            "¿Tienen opciones vegetarianas?",
+            "¿Aceptan tarjetas de crédito?",
+            "¿Tienen estacionamiento?",
+            "¿Hacen eventos privados?",
+            "¿Cuál es el tiempo de espera promedio?",
+            "¿Tienen menú infantil?"
+        ];
+        
+        var respuestas = [
+            "🕐 <strong>Horario de atención:</strong><br><br>• <b>Lunes a Viernes:</b> 12:00 pm - 10:00 pm<br>• <b>Sábados:</b> 12:00 pm - 11:00 pm<br>• <b>Domingos y festivos:</b> 12:00 pm - 9:00 pm<br><br>💡 <b>Tip:</b> Los fines de semana recomendamos llegar antes de las 8:00 pm para evitar esperas.<br><br>📍 <b>Ubicación:</b> Carrera 1 #93-50 Chico Alto, Bogotá",
+            
+            "🚚 <strong>¡Sí, hacemos domicilios!</strong><br><br>• <b>Zona de cobertura:</b> Chico Alto, Usaquén, Chapinero y zonas aledañas en Bogotá.<br>• <b>Tiempo de entrega:</b> 45-60 minutos aproximadamente.<br>• <b>Pedido mínimo:</b> $50,000 COP.<br>• <b>Costo de envío:</b> $8,000 COP (GRATIS en pedidos mayores a $120,000).<br><br>📞 <b>Para pedidos:</b> Llama al (57) 316 690 0508 o escríbenos por WhatsApp.<br><br>✅ Todos nuestros productos viajan en empaques térmicos para mantener la frescura.",
+            
+            "🍽️ <strong>Nuestros platos más populares:</strong><br><br>🥇 <b>1. Centollo a la Donostiarra</b> — Nuestro estrella. Centollo relleno y gratinado al estilo vasco.<br>🥈 <b>2. Paella de Mariscos</b> — Arroz con centollo, langostinos, almejas y mejillones.<br>🥉 <b>3. Cangrejo Real al Vapor</b> — King Crab con mantequilla derretida y limón.<br>• <b>4. Sopa de Cangrejo</b> — Cremosa con hueva de cangrejo (She-Crab style).<br>• <b>5. Nécoras al Ajillo</b> — Pequeños cangrejos gallegos salteados con ajo y guindilla.<br><br>🏆 <b>Recomendación del chef:</b> Prueba el Centollo a la Donostiarra con un Albariño.",
+            
+            "📅 <strong>Reservas:</strong><br><br>• <b>Fines de semana:</b> Recomendamos reservar con <b>2-3 días de anticipación</b>.<br>• <b>Días de semana:</b> Con 1 día de anticipación es suficiente.<br>• <b>Eventos especiales:</b> (San Valentín, Navidad) Reserva mínimo 1 semana antes.<br><br>📞 <b>Para reservar:</b><br>• Teléfono: (57) 316 690 0508<br>• Email: servicioalcliente@tramonti.com.co<br>• WhatsApp: Mensaje directo al mismo número.<br><br>✅ También aceptamos reservas de último momento si hay disponibilidad.",
+            
+            "🥗 <strong>Opciones vegetarianas y veganas:</strong><br><br>¡Claro que sí! Aunque somos especialistas en mariscos, tenemos opciones deliciosas:<br><br>• <b>Ensalada de Quinoa y Aguacate</b> — Con tomates cherry, nueces y vinagreta de maracuyá.<br>• <b>Risotto de Hongos</b> — Con parmesano y trufa (puede ser vegano sin queso).<br>• <b>Pasta Primavera</b> — Con vegetales de temporada y pesto casero.<br>• <b>Verduras a la Parrilla</b> — Con aceite de oliva y hierbas frescas.<br>• <b>Sopa de Tomate</b> — Casera con albahaca y croutons.<br><br>⚠️ <b>Importante:</b> Avísanos si tienes alergias alimentarias. Nuestra cocina maneja mariscos.",
+            
+            "💳 <strong>Métodos de pago:</strong><br><br>✅ <b>Tarjetas de crédito:</b> Visa, Mastercard, American Express, Diners Club.<br>✅ <b>Tarjetas de débito:</b> Todas las redes.<br>✅ <b>Efectivo:</b> Pesos colombianos y dólares (tasa del día).<br>✅ <b>Transferencia bancaria:</b> Para eventos privados y reservas grandes.<br>✅ <b>Nequi / Daviplata:</b> Para domicilios.<br><br>💡 <b>Propina:</b> El 10% de servicio es opcional. Puedes ajustarlo según tu experiencia.<br><br>🔒 <b>Seguridad:</b> Todas las transacciones son seguras y encriptadas.",
+            
+            "🚗 <strong>Estacionamiento:</strong><br><br>• <b>Estacionamiento propio:</b> Sí, contamos con parqueadero privado para clientes.<br>• <b>Capacidad:</b> 15 vehículos (primeros en llegar, primeros en servirse).<br>• <b>Costo:</b> GRATIS para clientes del restaurante (con validación de consumo).<br>• <b>Seguridad:</b> Vigilancia privada 24h y cámaras de seguridad.<br><br>🛵 <b>Motos:</b> Zona de parqueo exclusivo para motocicletas.<br><br>🚕 <b>Si no hay cupo:</b> Hay parqueaderos públicos a 1-2 cuadras de distancia.",
+            
+            "🎉 <strong>¡Sí, hacemos eventos privados!</strong><br><br>• <b>Capacidad:</b> Hasta 40 personas en nuestro salón privado.<br>• <b>Menú personalizado:</b> Adaptamos el menú a tus preferencias y presupuesto.<br>• <b>Opciones:</b> Cenas de empresa, cumpleaños, aniversarios, cenas románticas.<br>• <b>Servicios adicionales:</b> Decoración, música en vivo, fotógrafo, torta personalizada.<br><br>📞 <b>Para cotizar:</b> (57) 316 690 0508 o servicioalcliente@tramonti.com.co<br><br>💡 <b>Recomendación:</b> Reserva con al menos 2 semanas de anticipación para eventos especiales.<br><br>✅ También ofrecemos <b>catering</b> para eventos fuera del restaurante.",
+            
+            "⏱️ <strong>Tiempo de espera:</strong><br><br>• <b>Días de semana (Lunes-Jueves):</b> 15-25 minutos en mesa.<br>• <b>Viernes:</b> 25-40 minutos.<br>• <b>Fines de semana (Sáb-Dom):</b> 35-50 minutos.<br>• <b>Festivos:</b> Puede llegar a 60 minutos.<br><br>🍽️ <b>Tiempo de preparación:</b><br>• Entradas: 10-15 min.<br>• Platos fuertes: 20-35 min.<br>• Postres: 5-10 min.<br><br>💡 <b>Consejo:</b> Reserva con anticipación para evitar esperas. También puedes disfrutar de una copa de vino en nuestra barra mientras esperas.",
+            
+            "👶 <strong>Menú infantil:</strong><br><br>¡Por supuesto! Los pequeños también disfrutan de El Centollo:<br><br>• <b>Filete de Pescado Empanizado</b> — Con papas fritas y vegetales.<br>• <b>Pasta con Mantequilla</b> — Simple y deliciosa.<br>• <b>Mini Hamburguesa</b> — Con queso cheddar y papas.<br>• <b>Nuggets de Pollo</b> — Caseros, con puré de papa.<br>• <b>Arroz con Pollo</b> — Suave y nutritivo.<br><br>🎨 <b>Extras:</b> Sillas altas, mantas de colores, crayones y hojas para colorear.<br>💰 <b>Precio:</b> Todos los platos infantiles entre $18,000 - $28,000 COP.<br><br>⚠️ <b>Nota:</b> No recomendamos mariscos para niños menores de 3 años por precaución alérgica."
+        ];
+        
+        // ============ VARIABLES ============
+        var preguntasHechas = [];
+        var chatbotAbierto = false;
+        
+        var chatbotWindow = document.getElementById('chatbot-window');
+        var chatbotMessages = document.getElementById('chatbotMessages');
+        var chatTyping = document.getElementById('chatTyping');
+        var progressFill = document.getElementById('progressFill');
+        var progressText = document.getElementById('progressText');
+        var chatbotQuestionsDiv = document.getElementById('chatbotQuestions');
+        var chatbotRestart = document.getElementById('chatbotRestart');
+        var chatbotToggle = document.getElementById('chatbot-toggle');
+        var chatbotBadge = document.getElementById('chatbotBadge');
+        var chatbotTooltip = document.getElementById('chatbotTooltip');
+
+        // ============ FUNCIONES ============
+        
+        function toggleChatbot() {
+            chatbotAbierto = !chatbotAbierto;
+            if (chatbotAbierto) {
+                chatbotWindow.classList.remove('chatbot-hidden');
+                chatbotWindow.classList.add('chatbot-visible');
+                chatbotToggle.classList.add('hidden');
+                closeTooltip();
+                chatbotBadge.style.display = 'none';
+            } else {
+                chatbotWindow.classList.remove('chatbot-visible');
+                chatbotWindow.classList.add('chatbot-hidden');
+                setTimeout(function() {
+                    chatbotToggle.classList.remove('hidden');
+                }, 300);
+            }
+        }
+        
+        function closeTooltip() {
+            chatbotTooltip.style.display = 'none';
+        }
+        
+        // Auto-hide tooltip after 8 seconds
+        setTimeout(function() {
+            if (!chatbotAbierto) closeTooltip();
+        }, 8000);
+        
+        function getHora() {
+            var ahora = new Date();
+            var h = ahora.getHours().toString();
+            if (h.length < 2) h = '0' + h;
+            var m = ahora.getMinutes().toString();
+            if (m.length < 2) m = '0' + m;
+            return h + ':' + m;
+        }
+        
+        function yaPreguntada(indice) {
+            for (var i = 0; i < preguntasHechas.length; i++) {
+                if (preguntasHechas[i] === indice) return true;
+            }
+            return false;
+        }
+        
+        function actualizarProgreso() {
+            var progreso = (preguntasHechas.length / 10) * 100;
+            progressFill.style.width = progreso + '%';
+            progressText.textContent = 'Pregunta ' + preguntasHechas.length + ' de 10';
+        }
+        
+        function askQuestion(indice) {
+            if (yaPreguntada(indice)) return;
+            
+            preguntasHechas.push(indice);
+            actualizarProgreso();
+            
+            // Deshabilitar boton
+            var botones = chatbotQuestionsDiv.getElementsByTagName('button');
+            botones[indice].disabled = true;
+            
+            // Mensaje del usuario
+            var mensajeUsuario = document.createElement('div');
+            mensajeUsuario.className = 'chat-message user';
+            mensajeUsuario.innerHTML = 
+                '<div class="chat-bubble">' + preguntas[indice] + '</div>' +
+                '<div class="chat-time">' + getHora() + '</div>';
+            chatbotMessages.appendChild(mensajeUsuario);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            
+            // Mostrar typing
+            chatTyping.style.display = 'flex';
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            
+            // Respuesta del bot con delay
+            setTimeout(function() {
+                chatTyping.style.display = 'none';
+                
+                var mensajeBot = document.createElement('div');
+                mensajeBot.className = 'chat-message bot';
+                mensajeBot.innerHTML = 
+                    '<div class="chat-bubble">' + respuestas[indice] + '</div>' +
+                    '<div class="chat-time">' + getHora() + '</div>';
+                chatbotMessages.appendChild(mensajeBot);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                
+                // Verificar si todas las preguntas fueron hechas
+                if (preguntasHechas.length === 10) {
+                    setTimeout(function() {
+                        var mensajeFinal = document.createElement('div');
+                        mensajeFinal.className = 'chat-message bot';
+                        mensajeFinal.innerHTML = 
+                            '<div class="chat-bubble">' +
+                            '<strong>🎉 ¡Felicidades!</strong><br><br>' +
+                            'Has completado las 10 preguntas. ¡Ahora conoces todo sobre El Centollo!<br><br>' +
+                            '¿Te gustaría hacer una reserva? Llama al <strong>(57) 316 690 0508</strong> o visítanos en <strong>Carrera 1 #93-50 Chico Alto, Bogotá</strong>. 🦀' +
+                            '</div>' +
+                            '<div class="chat-time">' + getHora() + '</div>';
+                        chatbotMessages.appendChild(mensajeFinal);
+                        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                        
+                        chatbotQuestionsDiv.style.display = 'none';
+                        chatbotRestart.style.display = 'block';
+                    }, 1000);
+                }
+            }, 1500 + Math.random() * 800);
+        }
+        
+        function restartChatbot() {
+            preguntasHechas = [];
+            chatbotMessages.innerHTML = 
+                '<div class="chat-message bot">' +
+                '<div class="chat-bubble">' +
+                '<strong>¡Hola de nuevo!</strong> Soy el asistente de El Centollo. 🦀<br><br>' +
+                '¿En qué puedo ayudarte hoy? Selecciona una pregunta de abajo:' +
+                '</div>' +
+                '<div class="chat-time">' + getHora() + '</div>' +
+                '</div>';
+            actualizarProgreso();
+            
+            var botones = chatbotQuestionsDiv.getElementsByTagName('button');
+            for (var i = 0; i < botones.length; i++) {
+                botones[i].disabled = false;
+            }
+            
+            chatbotQuestionsDiv.style.display = 'flex';
+            chatbotRestart.style.display = 'none';
+        }
+        
+        // Cerrar chat al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (chatbotAbierto && 
+                !chatbotWindow.contains(e.target) && 
+                !chatbotToggle.contains(e.target) && 
+                !chatbotTooltip.contains(e.target)) {
+                toggleChatbot();
+            }
+        });
+
+        // --- SLIDER ---
+        var currentSlide = 0;
+        var totalSlides = 6;
+        var imagesWrapper = document.getElementById('sliderImages');
+        var dots = document.querySelectorAll('.dot');
+        var autoSlide;
+
+        function updateSlider() {
+            imagesWrapper.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+            for (var i = 0; i < dots.length; i++) {
+                dots[i].classList.toggle('active', i === currentSlide);
+            }
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            updateSlider();
+            resetAutoSlide();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+            resetAutoSlide();
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlide);
+            autoSlide = setInterval(function() { changeSlide(1); }, 5000);
+        }
+
+        autoSlide = setInterval(function() { changeSlide(1); }, 5000);
+
+        // --- MODAL ---
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('welcomeModal').classList.add('active');
+            }, 1000);
+        });
+        function closeModal() {
+            document.getElementById('welcomeModal').classList.remove('active');
+        }
+        document.getElementById('welcomeModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
+</body>
+</html>
